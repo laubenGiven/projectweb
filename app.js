@@ -38,6 +38,14 @@ app.get('/', function(request, response) {
 app.get('/login', function(request, response) {
 	response.sendFile(path.join(__dirname + '/app.html'));
 });
+app.get('/register', function(req, res) {
+    response.redirect('/Register.html');
+});
+
+// Serve the login page
+app.get('/register', function(request, response) {
+	response.sendFile(path.join(__dirname + '/Register.html'));
+});
 
 // Authenticate the user
 app.post('/auth', function(request, response) {
