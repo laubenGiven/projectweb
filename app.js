@@ -4,6 +4,7 @@ const session = require('express-session');
 const path = require('path');
 const { Console } = require('console');
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -45,6 +46,10 @@ app.get('/register', function(request, response) {
 	response.sendFile(path.join(__dirname + 'public/Register.html'));
 });
 
+
+
+
+
 // Set up body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -56,6 +61,9 @@ const pool = mysql.createPool({
   password: 'alien123.com',
   database: 'nodelogin',
 });
+
+
+
 // Handle POST requests to the registration form
 app.post('/register', (req, res) => {
   // Extract form data from request body
@@ -72,8 +80,6 @@ app.post('/register', (req, res) => {
     res.send('Account Created Successfully!');
   });
 });
-
-
 
 // Authenticate the user
 app.post('/auth', function(request, response) {
@@ -104,6 +110,42 @@ app.post('/auth', function(request, response) {
 	}
 });
 
+// resetting  password
+// Body parser middleware
+
+// handle form submission
+app.post('/resetpassword', (req, res) => {
+  const email = req.body.email;
+
+  // check if email exists in the database
+  const query = `SELECT * FROM users WHERE email='${email}'`;
+  connection.query(query, (err, results) => {
+    if (err) throw err;
+
+    if (results.length === 0) {
+      // email doesn't exist, display an error message
+      res.send('Email not found.');
+    } else {
+      // email exists, generate a new password
+      const newPassword =  req.body.newpsswd;
+
+      // update the password field in the database
+      const updateQuery = `UPDATE users SET password='${newPassword}' WHERE email='${email}'`;
+      connection.query(updateQuery, (err, results) => {
+        if (err){
+          console.error('Error updating user data in database: ', err);
+          res.send('Error resetting password. Please try again later.');
+          return;      
+        }
+    
+  
+        res.send('Password resetted  successfully!!. ');
+      });
+    }
+  });
+});
+
+
 
 
 // Server
@@ -114,7 +156,99 @@ app.listen(3000, () => {
 
 
 
-/**const express = require('express');
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+// Route for resetting password
+app.post('/resetpassword', (req, res) => {
+  const email = req.body.email;
+
+  // Query database for user with provided email address
+  connection.query('SELECT * FROM users WHERE email = ?', email, (error, results) => {
+    if (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    } else if (results.length === 0) {
+      res.send('No user found with that email address');
+    } else {
+      const user = results[0];
+      const newPassword = generateRandomPassword();
+      
+      // Update user's password in database
+      connection.query('UPDATE users SET password = ? WHERE id = ?', [newPassword, user.id], (error, results) => {
+        if (error) {
+          console.error(error);
+          res.status(500).send('Internal Server Error');
+        } else {
+          // Send email with new password
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'your_email@gmail.com',
+              pass: 'your_email_password'
+            }
+          });
+
+          const mailOptions = {
+            from: 'your_email@gmail.com',
+            to: user.email,
+            subject: 'Password Reset',
+            text: `Your new password is: ${newPassword}`
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.error(error);
+              res.status(500).send('Internal Server Error');
+            } else {
+              console.log('Email sent: ' + info.response);
+              res.redirect('/password_reset_confirmation');
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+// Route for confirmation page
+app.get('/password_reset_confirmation', (req, res) => {
+  res.send('Your password has been reset. Please check your email for your new password.');
+});
+
+
+
+
+ * 
+ * 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ const express = require('express');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
