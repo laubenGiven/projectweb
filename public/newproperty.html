@@ -12,21 +12,67 @@
      <script src="js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Rental Property Management System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="home.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="property.html">Properties</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="lease.html">Lease Requests</a>
+          </li>
+          <li class="nav-item">
+	        <a class="nav-link" href="contact.html">Contact Us</a>
+	      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About Us</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+
     <div class="container">
         <h1>Manage Property</h1>
 
  <div class="card mb-4">
    
    <div class="card-body">
-     <form>
+     <form  action="/newproperty" method="post">
+        <div class="form-group"  id="PropertyID">
+            <label for="PropertyType"> PropertyID</label>
+            <input type="text" class="form-control" id="PropertyID" placeholder="Enter property ID">
+          </div>
        <div class="form-group"  id="register">
          <label for="propertyName"> Name</label>
          <input type="text" class="form-control" id="propertyName" placeholder="Enter property name">
        </div>
        <div class="form-group">
-         <label for="propertyAddress"> Address</label>
+         <label for="propertyAddress"> Address/Location</label>
          <input type="text" class="form-control" id="propertyAddress" placeholder="Enter property address">
        </div>
+       <div class="form-group"  id="r">
+        <label for="Rooms"> BedRooms</label>
+        <input type="text" class="form-control" id="propertyName" placeholder="Enter number of Rooms">
+      </div>
+      <div class="form-group">
+        <label for="bathrooms"> BathRooms</label>
+        <input type="text" class="form-control" id="propertyAddress" placeholder="Enter number of BathRooms">
+      </div>
+      <div class="form-group"  id="PropertyType">
+        <label for="PropertyType"> PropertyType</label>
+        <input type="text" class="form-control" id="PropertyType" placeholder="Enter property type">
+      </div>
+     
        <div class="form-group">
          <label for="image">Property Image :</label>
          <input type="file" id="image" name="image">
@@ -35,6 +81,7 @@
          <label for="property-price">Price:</label>
          <input type="number" class="form-control" id="property-price" placeholder="Enter price" required>
        </div>
+       <br />
        <button type="submit" class="btn btn-primary">Create Property</button>
      </form>
    </div>
