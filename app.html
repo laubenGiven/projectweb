@@ -57,7 +57,7 @@ h1{
 		
         .login-form button,input [type="submit"]{
             display: inline-block;
-			padding: 10px 20px;
+			padding: 10px 10px;
 			border: none;
 			border-radius: 5px;
 			cursor: pointer;
@@ -65,10 +65,23 @@ h1{
             background-color: blue;
 			color: white;
             margin: 20px 105px;
-			
-			
-            
+			           
         }
+		#login-btn{
+			color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 1rem;
+
+		}
+		#register-btn a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
       
 		</style>
         
@@ -80,30 +93,34 @@ h1{
 
 			<h1>Login Form</h1>
 			<form action="/auth" method="POST">
-				<input type="text" name="username" placeholder="Username" required>
-				<input type="password" name="password" placeholder="Password" required><br />
+				<input type="text" name="username" placeholder="Username"  id="usrname" required>
+				<input type="password" name="password" placeholder="Password" id= "passwd" required><br />
 			<button type="submit" class="btn btn-primary"  id="login-btn">Login </button>
-            <button class="nav-link btn btn-primary" type="button" onclick="window.location.href='/register'" id="register-btn">Register</button>
+            
+			<button   type="button"  id="register-btn"  class="btn btn-primary text-center  text-decoration-none "><a href="/Register.html"> Create New Account</a> </button>
+			  
 
 			</form>
 		</div>
         <script src="js/bootstrap.bundle.min.js"></script>
         <script>
-            $(document).ready(function() {
-  // Show/hide login form on login button click
-  $('#login-btn').click(function(e) {
-    e.preventDefault(); // Prevent default link behavior
-    $('#login-form').toggle(); // Show/hide login form
+           $(document).ready(function() {
+  // Attach a click event handler to the button
+  $('#register-btn').click(function() {
+    // Clear the input text box
+    $('#passwd').val('');
+	$('#usrname').val('');
   });
-
-  // Redirect to register page on register button click
- /** $('#register-btn').click(function(e) {
-    e.preventDefault(); // Prevent default link behavior
-    window.location.href = 'public/Register.html'; // Redirect to register page
-  });*/
 });
 
         </script>
+		<!-- popper-->
+<script src="js/popper.min.js"  type="text/javascript"></script>
+<!-- jQuery -->
+<script src="js/jquery.min.js"  type="text/javascript"></script>
+
+<!-- Bootstrap JS -->
+<script src="js/bootstrap.bundle.min.js"  type="text/javascript"></script>
 	</body>
 </html>
 
