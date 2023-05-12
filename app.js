@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const { Console } = require('console');
+const bodyParser = require('body-parser');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -31,21 +32,48 @@ app.use(express.static('public'));
 
 // Redirect to the login page when accessing the root URL
 app.get('/', function(request, response) {
-	response.redirect('/app.html');
+	response.sendFile(path.join(__dirname + '/app.html'));
 });
 
 // Serve the login page
 app.get('/login', function(request, response) {
 	response.sendFile(path.join(__dirname + '/app.html'));
 });
-app.get('/register', function(req, res) {
-    response.redirect('/Register.html');
+
+// Serve the lregister  page
+app.get('/register', function(request, response) {
+	response.sendFile(path.join(__dirname + 'public/Register.html'));
 });
 
-// Serve the login page
-app.get('/register', function(request, response) {
-	response.sendFile(path.join(__dirname + '/Register.html'));
+// Set up body-parser middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Create a MySQL connection pool
+const pool = mysql.createPool({
+  connectionLimit: 10,
+  host: 'localhost',
+  user: 'lee',
+  password: 'alien123.com',
+  database: 'nodelogin',
 });
+// Handle POST requests to the registration form
+app.post('/register', (req, res) => {
+  // Extract form data from request body
+  const { role, username, email, password } = req.body;
+
+  // Insert data into database
+  pool.query('INSERT INTO users ( role, username, email, password) VALUES (?, ?,?, ?)', [role,username, email, password], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error inserting data into database');
+    }
+
+    // Send success response
+    res.send('Account Created Successfully!');
+  });
+});
+
+
 
 // Authenticate the user
 app.post('/auth', function(request, response) {
@@ -75,6 +103,8 @@ app.post('/auth', function(request, response) {
 		response.end();
 	}
 });
+
+
 
 // Server
 app.listen(3000, () => {
