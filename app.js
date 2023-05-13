@@ -81,6 +81,38 @@ app.post('/register', (req, res) => {
   });
 });
 
+
+
+// Handle POST requests to the New property form
+app.post('/newproperty', (req, res) => {
+  // Extract form data from request body
+  const { propertyID,propertyName, propertyAddress, bedrooms,bathrooms,propertyType,propertyImage,price } = req.body;
+
+  // Insert data into database
+  pool.query('INSERT INTO property( propertyID,propertyName, propertyAddress, bedrooms,bathrooms,propertyType,propertyImage,price) VALUES (?,?, ?, ?,?, ?,?, ?)', [propertyID,propertyName,propertyAddress, bedrooms,bathrooms,propertyType,propertyImage,price], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error inserting data into database');
+    }
+
+    // Send success response
+    res.send( ' New Property saved Successfully!');
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Authenticate the user
 app.post('/auth', function(request, response) {
 	// Capture the input fields
@@ -140,6 +172,10 @@ app.post('/resetpassword', (req, res) => {
     
   
         res.send('Password resetted  successfully!!. ');
+        res.sendFile(path.join(__dirname + '/app.html'));
+        
+
+        
       });
     }
   });

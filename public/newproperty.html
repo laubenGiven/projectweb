@@ -50,36 +50,36 @@
      <form  action="/newproperty" method="post">
         <div class="form-group"  id="PropertyID">
             <label for="PropertyType"> PropertyID</label>
-            <input type="text" class="form-control" id="PropertyID" placeholder="Enter property ID">
-          </div>
-       <div class="form-group"  id="register">
-         <label for="propertyName"> Name</label>
-         <input type="text" class="form-control" id="propertyName" placeholder="Enter property name">
+            <input type="text" class="form-control"  name="propertyID" id="PropertyID" placeholder="Enter property ID">
+          </div>      
+       <div class="form-group"  >
+         <label for="propertyName"> propertyName</label>
+         <input type="text" class="form-control"  name="propertyName"  id="propertyName"   placeholder="Enter property name">
        </div>
        <div class="form-group">
          <label for="propertyAddress"> Address/Location</label>
-         <input type="text" class="form-control" id="propertyAddress" placeholder="Enter property address">
+         <input type="text" class="form-control col-md-4" name="propertyAddress" id="propertyAddress" placeholder="Enter property address">
        </div>
-       <div class="form-group"  id="r">
+       <div class="form-group"  >
         <label for="Rooms"> BedRooms</label>
-        <input type="text" class="form-control" id="propertyName" placeholder="Enter number of Rooms">
+        <input type="number" class="form-control col-md-4"  name="bedrooms"   id="propertyName" placeholder="Enter number of Rooms">
       </div>
       <div class="form-group">
         <label for="bathrooms"> BathRooms</label>
-        <input type="text" class="form-control" id="propertyAddress" placeholder="Enter number of BathRooms">
+        <input type="number"  name="bathrooms"    class="form-control col-md-4" id="propertyAddress" placeholder="Enter number of BathRooms">
       </div>
       <div class="form-group"  id="PropertyType">
         <label for="PropertyType"> PropertyType</label>
-        <input type="text" class="form-control" id="PropertyType" placeholder="Enter property type">
+        <input type="text"   name="propertyType"    class="form-control" id="PropertyType" placeholder="Enter property type">
       </div>
      
        <div class="form-group">
          <label for="image">Property Image :</label>
-         <input type="file" id="image" name="image">
+         <input type="file" id="image" name="propertyImage">
        </div>
        <div class="form-group">
          <label for="property-price">Price:</label>
-         <input type="number" class="form-control" id="property-price" placeholder="Enter price" required>
+         <input type="number" class="form-control" name="price"    id="property-price" placeholder="Enter price" required>
        </div>
        <br />
        <button type="submit" class="btn btn-primary">Create Property</button>
