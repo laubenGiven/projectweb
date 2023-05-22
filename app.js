@@ -5,6 +5,16 @@ const path = require('path');
 const { Console } = require('console');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+
+// Set EJS as the template engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Set the views directory path
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -19,7 +29,6 @@ connection.connect(function(error){
 	else  console.log('************************Successful Database connection************************');
 });
 
-const app = express();
 
 app.use(session({
 	secret: 'secret',
@@ -27,23 +36,17 @@ app.use(session({
 	saveUninitialized: false
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+
 
 // Redirect to the login page when accessing the root URL
 app.get('/', function(request, response) {
 	response.sendFile(path.join(__dirname + '/app.html'));
 });
 
-// Serve the login page
-app.get('/login', function(request, response) {
-	response.sendFile(path.join(__dirname + '/app.html'));
-});
-
 // Serve the lregister  page
-app.get('/register', function(request, response) {
-	response.sendFile(path.join(__dirname + 'public/Register.html'));
+
+app.get('/newproperty', function(request, response) {
+	response.sendFile(path.join(__dirname + '/public/newproperty.html'));
 });
 
 
@@ -78,6 +81,7 @@ app.post('/register', (req, res) => {
 
     // Send success response
     res.send('Account Created Successfully!');
+    res.redirect('/login');
   });
 });
 
@@ -96,7 +100,8 @@ app.post('/newproperty', (req, res) => {
     }
 
     // Send success response
-    res.send( ' New Property saved Successfully!');
+   console.log( ' New Property saved Successfully!');
+    res.redirect('/newproperty');
   });
 });
 
@@ -104,81 +109,56 @@ app.post('/newproperty', (req, res) => {
 
 
 
+// Fetch data from the database
+// Define a route to handle incoming requests
+app.get('/results', (req, res) => {
+  fetchDataFromDatabase()
+    .then((data) => {
+      res.render('index', { data });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('An error occurred');
+    });
+});
 
-
-
-
-
-
-
-
+function fetchDataFromDatabase() {
+  return new Promise((resolve, reject) => {
+    pool.query('SELECT * FROM users', (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
 
 // Authenticate the user
 app.post('/auth', function(request, response) {
-	// Capture the input fields
-	let username = request.body.username;
-	let password = request.body.password;
-	// Ensure the input fields exist and are not empty
-	if (username && password) {
-		// Execute SQL query that'll select the account from the database based on the specified username and password
-		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-			// If there is an issue with the query, output the error
-			if (error) throw error;
-			// If the account exists
-			if (results.length > 0) {
-				// Authenticate the user
-				request.session.loggedin = true;
-				request.session.username = username;
-				// Redirect to home page
-				response.redirect('/home.html');
-			} else {
-				response.send('Incorrect Username and/or Password!');
-			}			
-			response.end();
-		});
-	} else {
-		response.send('Please enter Username and Password!!!!');
-		response.end();
-	}
-});
-
-// resetting  password
-// Body parser middleware
-
-// handle form submission
-app.post('/resetpassword', (req, res) => {
-  const email = req.body.email;
-
-  // check if email exists in the database
-  const query = `SELECT * FROM users WHERE email='${email}'`;
-  connection.query(query, (err, results) => {
-    if (err) throw err;
-
-    if (results.length === 0) {
-      // email doesn't exist, display an error message
-      res.send('Email not found.');
-    } else {
-      // email exists, generate a new password
-      const newPassword =  req.body.newpsswd;
-
-      // update the password field in the database
-      const updateQuery = `UPDATE users SET password='${newPassword}' WHERE email='${email}'`;
-      connection.query(updateQuery, (err, results) => {
-        if (err){
-          console.error('Error updating user data in database: ', err);
-          res.send('Error resetting password. Please try again later.');
-          return;      
-        }
-    
-  
-        res.send('Password resetted  successfully!!. ');
-        res.sendFile(path.join(__dirname + '/app.html'));
-        
-
-        
-      });
-    }
-  });
+  // Capture the input fields
+  let username = request.body.username;
+  let password = request.body.password;
+  // Ensure the input fields exist and are not empty
+  if (username && password) {
+    // Execute SQL query that'll select the account from the database based on the specified username and password
+    connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+      // If there is an issue with the query, output the error
+      if (error) throw error;
+      // If the account exists
+      if (results.length > 0) {
+        // Authenticate the user
+        request.session.loggedin = true;
+        request.session.username = username;
+        // Redirect to home page with a success message
+        response.render('home', { message: 'Login successful! Welcome to the homepage.' });
+      } else {
+        response.send('Incorrect Username and/or Password!');
+      }
+    });
+  } else {
+    response.send('Please enter Username and Password!');
+  }
 });
 
 
