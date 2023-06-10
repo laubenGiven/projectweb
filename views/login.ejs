@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    .login-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f8f9fc;
+    }
+
+    .login-card {
+      width: 600px;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+    }
+
+    .login-card h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-card form .form-control {
+      margin-bottom: 1.5rem;
+    }
+
+    .login-card form .btn-primary {
+      width: 80%;
+      background-color: red;
+      font-size: 16px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: bolder;
+      border-radius: 10px;
+      padding: 0.5rem;
+      margin: 0.5rem  2rem 0 2rem;
+    }
+
+    .login-card form .btn-link {
+      float: right;
+      color: red;
+      margin: 1rem;
+    }
+    
+
+    .login-card .svg-icon {
+      width: 25px;
+      height: 20px;
+      margin-right: 0.5rem;
+    }
+  </style> 
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="card-header text-center">
+        <h2>Welcome</h2><br />
+        <h4> Please enter your credentials to continue</h4> 
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <svg class="svg-icon" viewBox="0 0 20 20">
+              <path fill="currentColor"
+                d="M9.29289 12.2929C9.68342 11.9024 10.3166 11.9024 10.7071 12.2929L14.7071 16.2929C15.0976 16.6834 15.0976 17.3166 14.7071 17.7071C14.3166 18.0976 13.6834 18.0976 13.2929 17.7071L10 14.4142L6.70711 17.7071C6.31658 18.0976 5.68342 18.0976 5.29289 17.7071C4.90237 17.3166 4.90237 16.6834 5.29289 16.2929L9.29289 12.2929ZM5 11.9999H9.00002C9.55232 11.9999 10 12.4476 10 12.9999V15.9999H9.00002V12.9999H5V11.9999ZM5 8.00006H9.00002V9.00006H5V8.00006ZM5 5.99994H10V6.99994H5V5.99994ZM14 14.9999V12.9999C14 12.4476 14.4477 11.9999 15 11.9999H19V13.9999H15C14.4477 13.9999 14 14.4476 14 14.9999Z" />
+            </svg>
+            Login
+          </button>
+          <div class=" text-muted mt-3 text-center">
+            <a href="/Resetpassword.html" class="btn btn-link text-decoration-none ">Forgot Password?</a>
+          </div>
+        </form>
+      </div><br />
+      <br />
+      <div class="text-muted mt-3">
+        <p>Don't have an account?</p>
+        <a href="/Register.html" class="btn btn-primary">Register</a>
+      </div><br />
+      <div class="card-footer text-center">
+        <p> Copyright &copy COCIS MAK 2023 Rental Property Management System</p>
+      </div>
+     
+    </div><br />
+    
+  </div>
+ 
+</body>
+</html>
